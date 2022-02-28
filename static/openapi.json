@@ -1,0 +1,81 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "NAAS PORT LAUNCHER",
+        "description": "APIs for interacting with sandbox IAP",
+        "version": "1.0.0"
+    },
+    "tags": [{
+            "name": "Auth",
+            "description": "for IAP authentication"
+        },
+        {
+            "name": "Start a WF",
+            "description": "For future use"
+        }
+    ],
+    "paths": {
+        "/auth": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "takes username and password then fetches authentication token from sandbox IAP",
+                "parameters": [{
+                        "name": "sandboxNumber",
+                        "in": "query",
+                        "description": "The user name for login",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 17
+                    }, {
+                        "name": "username",
+                        "in": "query",
+                        "description": "The user name for login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "admin@pronghorn"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "The password for login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "admin"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generated token",
+                        "content": {
+                            "plain/text": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "hyt89if4r98ffb7fg4904g408g0h4g="
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username/password supplied",
+                        "content": {
+                            "plain/text": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "Can't reach the IAP server"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
