@@ -3,7 +3,7 @@
 ## Running in the python virtual environment
 > - Open cmd or powershell and cd into the project folder 
 > - For creating a new virtual environment named "naas_venv", enter `python -m venv naas_venv`
-> - enter `./naas_env/Scripts/activate` to activate the naas_venv virtual environment
+> - enter `./naas_venv/Scripts/activate` to activate the naas_venv virtual environment
 > - install the required dependencies in naas_venv by entering `pip install -r ./requirements.txt`
 > - enter `python main.py` to run the flask server at port 5000
 > - use ctrl+C to stop the server
