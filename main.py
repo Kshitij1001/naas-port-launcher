@@ -30,4 +30,4 @@ def get_api():
     else:
         return Response("Can't reach the IAP server",status=400)
 
-app.run(port=1234, use_reloader=True, debug=False)
+app.run(use_reloader=True, debug=False)
