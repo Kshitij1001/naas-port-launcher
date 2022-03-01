@@ -4,26 +4,27 @@ import requests
 app = Flask(__name__)
 
 @app.route('/')
-def get_root():
+def root():
     print('sending root')
     return render_template('index.html')
 
 @app.route('/docs')
-def get_docs():
+def swagger_docs():
     print('sending swagger docs')
     return render_template('swaggerui.html')
 
 @app.route('/auth')
-def get_api():
-    print('json recieved from swagger>>', cred := request.args.to_dict())   #recieved credentials
-    SNDBX = cred.pop('sandboxNumber')
-    print('json sent to IAP login>>', toIAP := {'user': cred})
+def login():
+    
+    print('json recieved from swagger>>',data_from_swagger := request.args.to_dict())   #recieved credentials
+    sandboxNum = data_from_swagger.pop('sandboxNumber')
+    print('json data for IAP login>>', data_to_IAP := {'user': data_from_swagger})
 
     try:
-        login_resp = requests.post(f'http://titansdevcarrier.clcloud.af.qwest.net:40{SNDBX}/login',json=toIAP)
-        
+        login_resp = requests.post(f'http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNum}/login',json=data_to_IAP)
         if login_resp.status_code == 200:
-            return Response(login_resp.text, status=200)
+            print('recieved token>>', token := login_resp.text)
+            return Response(token, status=200)
         elif login_resp.status_code == 500:   #can be MongoServerSelectionError or invalid username/password
             return Response(login_resp.json()['error'],status=400)  #will return error message
     except:
