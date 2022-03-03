@@ -1,6 +1,4 @@
-from flask import Response
 import requests
-
 
 def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
     url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/login"

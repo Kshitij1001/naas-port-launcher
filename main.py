@@ -1,9 +1,8 @@
-from flask import Flask, Response, render_template, request
-import json
+from flask import Flask, render_template, request
 from sandbox_apis import get_token_response, execute_wf
+import json
 
 app = Flask(__name__)
-
 
 @app.route("/")
 def root():
@@ -19,9 +18,7 @@ def swagger_docs():
 
 @app.route("/auth")
 def login():
-    print(
-        "json recieved from swagger>>", data_from_swagger := request.args.to_dict()
-    )  # recieved credentials
+    print("json recieved from swagger>>", data_from_swagger := request.args.to_dict())  # recieved credentials
     sandboxNum = int(data_from_swagger.pop("sandboxNumber"))
     print("json data for IAP login>>", data_to_IAP := {"user": data_from_swagger})
 
@@ -31,13 +28,10 @@ def login():
 @app.route("/start_wf", methods=["POST"])
 def start_workflow():
     print("URL parameters from swagger>>", url_parameters := request.args.to_dict())
-    sandboxNum, wf_name = (
-        int(url_parameters["sandboxNumber"]),
-        url_parameters["workflowName"],
-    )
+    sandboxNum, wf_name = int(url_parameters["sandboxNumber"]), url_parameters["workflowName"]
     print(
         "payload recieved from swagger>>",
-        json.dumps(payload_from_swagger := request.json, indent=4),
+        json.dumps(payload_from_swagger := request.json, indent=4)
     )
 
     return execute_wf(sandboxNum, wf_name, payload_from_swagger)
