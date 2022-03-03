@@ -1,6 +1,6 @@
 import requests
 
-def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
+def get_token_response(sandboxNumber: str, credentials: dict) -> tuple:
     url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/login"
     try:
         login_resp = requests.post(url, json=credentials)
@@ -9,16 +9,15 @@ def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
             return token, 200
         elif login_resp.status_code == 500:  # can be MongoServerSelectionError or invalid username/password
             return login_resp.json()["error"], 400  # will return error message
-    except:
-        pass
+    except Exception as e:
+        print(e)
     return "Can't reach the IAP server", 400
 
 
-def execute_wf(sandboxNumber: int, wf_name: str, payload: dict) -> tuple:
+def execute_wf(sandboxNumber: str, wf_name: str, payload: dict) -> tuple:
     cred = {"user": {"username": "admin@pronghorn","password": "admin"}}
     token_resp = get_token_response(sandboxNumber, cred)
     token: str = token_resp[0]  # either a valid token or an error message
-
     if token_resp[1] == 200:  # in case of a valid token
         start_wf_url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/workflow_engine/startJobWithOptions/{wf_name}?token={token}"
         try:

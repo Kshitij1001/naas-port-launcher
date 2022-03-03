@@ -19,16 +19,16 @@ def swagger_docs():
 @app.route("/auth")
 def login():
     print("json recieved from swagger>>", data_from_swagger := request.args.to_dict())  # recieved credentials
-    sandboxNum = int(data_from_swagger.pop("sandboxNumber"))
-    print("json data for IAP login>>", data_to_IAP := {"user": data_from_swagger})
-
+    sandboxNum = data_from_swagger.pop("sandboxNumber")
+    data_to_IAP = {"user": data_from_swagger}
+    app.logger.info('json data for IAP login>> %s', data_to_IAP)
     return get_token_response(sandboxNum, data_to_IAP)
 
 
 @app.route("/start_wf", methods=["POST"])
 def start_workflow():
     print("URL parameters from swagger>>", url_parameters := request.args.to_dict())
-    sandboxNum, wf_name = int(url_parameters["sandboxNumber"]), url_parameters["workflowName"]
+    sandboxNum, wf_name = url_parameters["sandboxNumber"], url_parameters["workflowName"]
     print(
         "payload recieved from swagger>>",
         json.dumps(payload_from_swagger := request.json, indent=4)
