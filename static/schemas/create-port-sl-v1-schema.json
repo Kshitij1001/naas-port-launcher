@@ -1,0 +1,302 @@
+{
+   "$id": "create-port-sl-v1-schema",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+      "parentCorrelationId": {
+         "type": "string",
+         "description": "An ID that can uniquely identify this job and correlate it to a parent job.",
+         "example": 2132222
+      },
+      "customerName": {
+         "type": "string",
+         "description": "The common English name of the customer ordering the service.",
+         "example": "First American Title"
+      },
+      "customerNumber": {
+         "type": "string",
+         "description": "Customer business organization id from salesforce. In salesforce this is called customerNumber.",
+         "example": "1-CP6I7Y"
+      },
+      "customerEID": {
+         "type": "string",
+         "description": "Customer EID is the internal primary key of business organization id from salesforce. In salesforce this is called customerEID. Please note that either customerNumber (a.k.a biz org id) or customer EID need to be populated.",
+         "example": "1189841"
+      },
+      "orderSource": {
+         "type": "string",
+         "description": "Order entry system name.",
+         "example": "Vlocity, SwIFT, CPO, Pipeline"
+      },
+      "productOfferName": {
+         "type": "string",
+         "description": "Business Product offer name. Product offer name can be UNI, Port, WHolesale UNI, etc but they all can be classified to a product type as UNI. Product offer name can change.",
+         "example": "UNI"
+      },
+      "productInstanceId": {
+         "type": "string",
+         "description": "Product Instance ID",
+         "example": 338808470
+      },
+      "serviceOrderNumber": {
+         "type": "string",
+         "description": "Defines a unique identifier for a reportable unit of work on the customer order. This is sometimes a concatenation of the customer order number and the product inst id.",
+         "example": 551748370
+      },
+      "orderId": {
+         "type": "string",
+         "description": "Defines a unique identifier for the order. The customer order may have one or more services associated to it. Generally this is the number that can be searched in the OE system directly to pull up the order and all services associated to it.",
+         "example": 551748370
+      },
+      "orderVersion": {
+         "type": "string",
+         "description": "Unique order version of the customer order number.",
+         "example": 1
+      },
+      "mainProductId": {
+         "type": "string",
+         "description": "'Product Package of services containing main product and child products to fulfill the main product. For example Hyper WAN from Vlocity or E-Line from Swift or NLAN from CPO.  This unique identifier should not change with each versioned transaction. '",
+         "example": "'Vlocity - Child/Site order numbers (O-00026477)' 'Swift - product service packages- 442840513<br/> Legacy Red OE: 1007YRWB-BBSB14782'"
+      },
+      "fulfillmentRequestNumber": {
+         "type": "string",
+         "description": "Unique identifier from Vlocity to represent a fulfillment request.",
+         "example": "FR0014427-1"
+      },
+      "customerRequestedDate": {
+         "type": "string",
+         "description": "Customer Request Date.",
+         "example": "2021-02-08"
+      },
+      "customerCommittedDate": {
+         "type": "string",
+         "description": "Customer Commit Date.",
+         "example": "2021-02-08"
+      },
+      "productSubType": {
+         "type": "string",
+         "description": "Types of UNIs/Ports.",
+         "enum": [
+            "port",
+            "elynk",
+            "enni",
+            "dynamicPort",
+            "vpc"
+         ],
+         "example": "port"
+      },
+      "serviceType": {
+         "type": "string",
+         "description": "Service on Port.",
+         "example": "ztp, elynk, eline, eaccess, internet, simple_wan, fiber_plus"
+      },
+      "deviceType": {
+         "type": "string",
+         "description": "Type of the device on which port is configured.",
+         "example": "ECN, NPE"
+      },
+      "deviceRole": {
+         "type": "string",
+         "description": "Role of the device on which port is configured. ",
+         "example": "ECN, NPE"
+      },
+      "serviceAlias": {
+         "type": "string",
+         "description": "UNI Service Alias. Monarch sends UNI service alias when loa is required. NaaS skips uni seervice alias generation and reuses the service alias sent by upstream.",
+         "example": "OH/KXFN/412555/LVLC"
+      },
+      "bandwidth": {
+         "type": "string",
+         "description": "The bandwidth capacity of the UNI port, the limit allowed through the interface.",
+         "example": "100 Mbps"
+      },
+      "portSpeed": {
+         "type": "string",
+         "description": "Physical port speed of the UNI port.",
+         "example": "100 Mbps"
+      },
+      "aEndClli": {
+         "type": "string",
+         "description": "Identifies a piece of equipment representing the A side of a network path.",
+         "example": "LABBRMCO"
+      },
+      "interfaceType": {
+         "type": "string",
+         "description": "The type of connection the port supports",
+         "enum": [
+            "Fiber",
+            "Copper"
+         ],
+         "example": "Fiber"
+      },
+      "uniType": {
+         "type": "string",
+         "enum": [
+            "Multiplexed",
+            "Transparent",
+            "Single"
+         ],
+         "description": "The type of UNI port",
+         "example": "Multiplexed"
+      },
+      "sfpMode": {
+         "type": "string",
+         "enum": [
+            "SM",
+            "MM"
+         ],
+         "description": "Type of fiber representing either single mode or multi mode. Default to SM.",
+         "example": "SM"
+      },
+      "fiberConnectorType": {
+         "type": "string",
+         "enum": [
+            "SC",
+            "LC"
+         ],
+         "description": "Fiber Connector Type",
+         "example": "LC"
+      },
+      "maxNumberOfEvc": {
+         "type": "integer",
+         "description": "Defines how network is configured. Values less than or greater than 50, or 1 for transparent UNI.",
+         "example": 50
+      },
+      "loaReq": {
+         "type": "string",
+         "enum": [
+            "No",
+            "Yes - Customer Provided",
+            "Yes - Level 3 Provided"
+         ],
+         "description": "Letter of Authorization required - Value indicates to users if customer needs a letter to be able to connect to the network resource.  No network impact.",
+         "example": "No"
+      },
+      "device": {
+         "type": "string",
+         "description": "Device name when LOA is required. This field is mandatory when loaReq = true.",
+         "example": "CNVYPAAKZG002"
+      },
+      "port": {
+         "type": "string",
+         "description": "port on the device when LOA is required. This field is mandatory when loaReq = true.",
+         "example": "GigabitEthernet0/0/4"
+      },
+      "cfsId": {
+         "type": "string",
+         "description": "Unique UNI's customer facing service identifier.",
+         "example": "66B74B62AAD1408F9158CB868C1AEF98"
+      },
+      "rfsId": {
+         "type": "string",
+         "description": "Unique UNI's resource facing service identifier.",
+         "example": "52254FF7ED594FC1B4F545F96F8FFFD7"
+      },
+      "transportCFSId": {
+         "type": "string",
+         "description": "Unique UNI's transport customer facing service identifier.",
+         "example": "66B74B62AAD1408F9158CB868C1AEF97"
+      },
+      "transportRFSId": {
+         "type": "string",
+         "description": "Unique UNI's transport resource facing service identifier.",
+         "example": "52254FF7ED594FC1B4F545F96F8FFFD8"
+      },
+      "asriParentTransactionId": {
+         "type": "string",
+         "description": "ASRI's parent project transaction id",
+         "example": 551748370
+      },
+      "asriTransactionId": {
+         "type": "string",
+         "description": "ASRI's UNI design project transaction id",
+         "example": "551748370-8845-UNI-1"
+      },
+      "parentServiceId": {
+         "type": "string",
+         "description": "Parent service id is parent product instance id",
+         "example": "MVL-12345678"
+      },
+      "elynkDeviceType": {
+         "type": "string",
+         "enum": [
+            "ES",
+            "PE"
+         ],
+         "default": "PE",
+         "description": "Elynk Device Type",
+         "example": "ES"
+      },
+      "dataCenters": {
+         "type":"array",
+         "description": "Data Centers associated to UNI",
+         "example": "['AWS West Region 1' ]"
+      },
+      "failFast": {
+         "type": "boolean",
+         "default":  true,
+         "description": "Default behavior is to fail fast on Create and performs auto delete of network inventory resources if any are allocated by this specific operation up until the activation is succesful",
+         "examples": [
+            true,
+            false
+         ]
+      },
+      "ztpConfig": {
+         "type": "object",
+         "properties": {
+           "nidDeviceName": {
+             "type": "string",
+             "description": "NID's ZTP design project device name.",
+             "example": "1,2.3.4"
+           },
+           "isatTransactionId": {
+             "type": "string",
+             "description": "ISAT's ZTP design project transaction id.",
+             "example": "192.108.1.0/24"
+           }
+         }
+      }
+   },
+   "anyOf": [
+      {
+         "type": "object",
+         "required": [
+            "customerNumber"
+         ],
+         "properties": {
+            "customerNumber": {
+               "type": "string",
+               "description": "Customer business organization id from salesforce. In salesforce this is called customerNumber.",
+               "example": "1-CP6I7Y"
+            }
+         }
+      },
+      {
+         "type": "object",
+         "required": [
+            "customerEID"
+         ],
+         "properties": {
+            "customerEID": {
+               "type": "string",
+               "description": "Customer EID is the internal primary key of business organization id from salesforce. In salesforce this is called customerEID. Please note that either customerNumber (a.k.a biz org id) or customer EID need to be populated.",
+               "example": "1189841"
+            }
+         }
+      }
+   ],
+   "required": [
+      "parentCorrelationId",
+      "customerName",
+      "orderSource",
+      "productOfferName",
+      "productInstanceId",
+      "orderId",
+      "portSpeed",
+      "aEndClli",
+      "interfaceType",
+      "uniType",
+      "productSubType"
+   ],
+   "additionalProperties": false
+}

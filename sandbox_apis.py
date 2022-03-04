@@ -1,6 +1,7 @@
+from typing import Tuple
 import requests
 
-def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
+def get_token_response(sandboxNumber: int, credentials: dict) -> Tuple[str,int]:
     url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/login"
     try:
         login_resp = requests.post(url, json=credentials)
@@ -8,7 +9,7 @@ def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
             print("recieved token>>", token := login_resp.text)
             return token, 200
         elif login_resp.status_code == 500:  # can be MongoServerSelectionError or invalid username/password
-            return login_resp.json()["error"], 400  # will return error message
+            return str(login_resp.json()["error"]), 400  # will return error message
     except:
         pass
     return "Can't reach the IAP server", 400
@@ -16,21 +17,19 @@ def get_token_response(sandboxNumber: int, credentials: dict) -> tuple:
 
 def execute_wf(sandboxNumber: int, wf_name: str, payload: dict) -> tuple:
     cred = {"user": {"username": "admin@pronghorn","password": "admin"}}
-    token_resp = get_token_response(sandboxNumber, cred)
-    token: str = token_resp[0]  # either a valid token or an error message
+    token, status = get_token_response(sandboxNumber, cred)  #token will either be a valid token or an error message
 
-    if token_resp[1] == 200:  # in case of a valid token
+    if status == 200:  # in case of a valid token
         start_wf_url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/workflow_engine/startJobWithOptions/{wf_name}?token={token}"
-        try:
-            req_body = {
+        req_body = {
                 "options": {"description": "", "variables": payload},
                 "groups": [],
                 "type": "automation",
             }
+        try:
             execute_wf_resp = requests.post(start_wf_url, json=req_body)
             if execute_wf_resp.status_code == 200 and "application/json" in execute_wf_resp.headers["content-type"]:
-                resp_data: dict = execute_wf_resp.json()
-                job_id = str(resp_data["_id"])
+                job_id = str(execute_wf_resp.json()["_id"])
                 job_url = f"http://titansdevcarrier.clcloud.af.qwest.net:40{sandboxNumber}/workflow_engine/viewer?job_id={job_id}"
                 return {"job_id": job_id, "job_url": job_url}, 200
             else:
@@ -39,4 +38,4 @@ def execute_wf(sandboxNumber: int, wf_name: str, payload: dict) -> tuple:
         except:
             return "Cannot start the workflow", 400
     else:
-        return token_resp  # it will have an error message
+        return token, 400  # it will be an error message
