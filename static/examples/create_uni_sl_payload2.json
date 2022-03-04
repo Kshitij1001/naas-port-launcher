@@ -1,0 +1,19 @@
+{
+    "requestPayload": {
+        "parentCorrelationId": "AP-TEST-1234",
+        "customerName": "SUNDAY UAT",
+        "customerNumber": "1-CP6I7Y",
+        "customerEID": "1189841",
+        "orderSource": "SwIFT",
+        "productOfferName": "DIA",
+        "productInstanceId": "MVL-123456",
+        "serviceOrderNumber": "O-00026477-MVL-029928",
+        "orderId": "O-00026476",
+        "productSubType": "port",
+        "uniType": "Multiplexed",
+        "aEndClli": "CO/KXFN/615505/LVLC",
+        "portSpeed": "1000 Mbps",
+        "serviceType": "fiber_plus",
+        "interfaceType": "Fiber"
+    }
+}

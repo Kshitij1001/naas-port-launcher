@@ -78,58 +78,48 @@
                 }
             }
         },
-        "/start_wf": {
+        "/start_wf/LNAAS_CREATE_UNI_SL_V1": {
             "post": {
                 "tags": [
                     "Start a workflow"
                 ],
-                "summary": "takes sandbox number, workflow name and payload and returns job-ID",
+                "summary": "takes sandbox number and payload, executes the WF and returns job-ID",
                 "parameters": [{
-                        "name": "sandboxNumber",
-                        "in": "query",
-                        "description": "The IAP sandbox number",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 17
+                    "name": "sandboxNumber",
+                    "in": "query",
+                    "description": "The IAP sandbox number",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     },
-                    {
-                        "name": "workflowName",
-                        "in": "query",
-                        "description": "Name of the workflow",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "LNAAS_CREATE_UNI_SL_V1"
-                    }
-                ],
+                    "example": 17
+                }],
                 "requestBody": {
                     "description": "The request payload",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "./schemas/create-port-sl-v1-schema.json"
+                                "type": "object",
+                                "properties": {
+                                    "requestPayload": {
+                                        "type": "object",
+                                        "allOf": [{
+                                                "$ref": "./schemas/create-port-sl-v1-schema.json"
+                                            },
+                                            {
+                                                "type": "object"
+                                            }
+                                        ]
+                                    }
+                                }
                             },
-                            "example": {
-                                "requestPayload": {
-                                    "parentCorrelationId": "AP-TEST-1234",
-                                    "customerName": "SUNDAY UAT",
-                                    "customerNumber": "1-CP6I7Y",
-                                    "customerEID": "1189841",
-                                    "orderSource": "SwIFT",
-                                    "productOfferName": "DIA",
-                                    "productInstanceId": "MVL-123456",
-                                    "serviceOrderNumber": "O-00026477-MVL-029928",
-                                    "orderId": "O-00026476",
-                                    "productSubType": "port",
-                                    "uniType": "Multiplexed",
-                                    "aEndClli": "CO/KXFN/615505/LVLC",
-                                    "portSpeed": "1000 Mbps",
-                                    "serviceType": "fiber_plus",
-                                    "interfaceType": "Fiber"
+                            "examples": {
+                                "example 1": {
+                                    "$ref": "./examples/create_uni_sl_payload1.json"
+                                },
+                                "example 2": {
+                                    "$ref": "./examples/create_uni_sl_payload2.json"
                                 }
                             }
                         }

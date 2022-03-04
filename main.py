@@ -25,16 +25,15 @@ def login():
     return get_token_response(sandboxNum, data_to_IAP)
 
 
-@app.route("/start_wf", methods=["POST"])
-def start_workflow():
-    print("URL parameters from swagger>>", url_parameters := request.args.to_dict())
-    sandboxNum, wf_name = int(url_parameters["sandboxNumber"]), url_parameters["workflowName"]
+@app.route("/start_wf/LNAAS_CREATE_UNI_SL_V1", methods=["POST"])
+def start_wf_lnaas_create_uni_sl_v1():
+    print("sandbox number>>", sandboxNum := request.args.to_dict()['sandboxNumber'])
     print(
         "payload recieved from swagger>>",
         json.dumps(payload_from_swagger := request.json, indent=4)
     )
 
-    return execute_wf(sandboxNum, wf_name, payload_from_swagger)
+    return execute_wf(sandboxNum, "LNAAS_CREATE_UNI_SL_V1", payload_from_swagger)
 
 
-app.run(use_reloader=True, debug=True)
+app.run(host="0.0.0.0",use_reloader=True, debug=True)
