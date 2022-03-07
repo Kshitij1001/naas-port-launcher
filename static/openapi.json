@@ -113,14 +113,6 @@
                                         ]
                                     }
                                 }
-                            },
-                            "examples": {
-                                "example 1": {
-                                    "$ref": "./examples/create_uni_sl_payload1.json"
-                                },
-                                "example 2": {
-                                    "$ref": "./examples/create_uni_sl_payload2.json"
-                                }
                             }
                         }
                     }
